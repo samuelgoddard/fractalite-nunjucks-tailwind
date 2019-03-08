@@ -1,0 +1,38 @@
+.fr-inspector {
+  width: 100%;
+  height: 100vh;
+  background: var(--bg-color-light-shade);
+  overflow: hidden;
+
+  &__preview {
+    background-color: #fff;
+    position: relative;
+  }
+
+  &__info {
+    flex: 1;
+    background-color: #fff;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__tabs {
+    flex: none;
+  }
+
+  &__panels {
+    flex: 1;
+  }
+
+  .gutter.gutter-vertical {
+    border-top: 1px solid var(--divider-color);
+    background-color: var(--tabs-bg-color);
+    background-image: none;
+  }
+
+  .fr-source-code,
+  .fr-json-explorer {
+    height: 100%;
+  }
+}

@@ -1,0 +1,11 @@
+.fr-panels {
+  background-color: var(--panel-bg-color);
+  overflow: hidden;
+
+  &__panel {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    height: 100%;
+    width: 100%;
+  }
+}

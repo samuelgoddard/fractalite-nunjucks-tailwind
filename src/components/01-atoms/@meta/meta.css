@@ -1,0 +1,31 @@
+.meta {
+  @apply
+  inline-block
+  uppercase
+  font-bold
+  text-xs
+  pb-2
+  tracking-wide
+  text-grey-darker;
+
+  & > a {
+      @apply text-blue;
+  }
+
+  > a {
+      @include link() {
+          @apply text-blue;
+      }
+      @include link-hover() {
+          @apply underline;
+      }
+  }
+}
+
+.meta--highlight {
+  @apply text-blue;
+
+  > a {
+    @apply text-blue;
+  }
+}

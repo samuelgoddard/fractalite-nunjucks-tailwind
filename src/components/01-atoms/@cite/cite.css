@@ -1,0 +1,7 @@
+cite, .cite {
+  @apply
+  text-sm
+  text-grey-dark
+  uppercase
+  roman
+}

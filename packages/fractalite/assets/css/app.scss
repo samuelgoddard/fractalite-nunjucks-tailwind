@@ -1,0 +1,72 @@
+.fr-app {
+  height: 100vh;
+  width: 100vw;
+  padding: 0;
+
+  &__container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: none;
+    &.is-ready {
+      display: flex;
+    }
+  }
+
+  &__sidebar {
+    width: var(--sidebar-width);
+    background-color: var(--sidebar-bg-color);
+    color: var(--sidebar-text-color);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    a {
+      color: var(--sidebar-link-color);
+    }
+  }
+
+  &__brand {
+    flex: none;
+  }
+
+  &__sidebar-main {
+    flex: 1 1 50%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  &__navigation {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  &__search {
+    flex: 0 0 auto;
+  }
+
+  &__controls {
+    flex: none;
+  }
+
+  &__main {
+    width: calc(100% - var(--sidebar-width));
+    height: 100vh;
+    position: relative;
+  }
+
+  // .loader {
+  //   width: 100%;
+  //   height: 100%;
+  //   position: absolute;
+  //   top: 0;
+  //   left: 0;
+  //   right: 0;
+  //   bottom: 0;
+  //   z-index: 10000;
+  //   background-color: rgba(255, 255, 255, 0.95);
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+  // }
+}

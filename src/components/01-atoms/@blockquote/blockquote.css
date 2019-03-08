@@ -1,0 +1,27 @@
+blockquote {
+  @apply
+  text-center
+  text-black
+  font-bold
+  py-4 my-4
+  text-xl
+  border-t border-b border-grey-light;
+
+  @screen md {
+    @apply
+    py-8 my-8
+    text-3xl;
+  }
+
+  @screen xl {
+    @apply
+    text-4xl;
+  }
+}
+
+blockquote > cite, blockquote > .cite {
+  @apply
+  block
+  w-full
+  mt-3;
+}

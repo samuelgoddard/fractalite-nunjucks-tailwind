@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="{{ meta.lang | default('en') }}" dir="{{ meta.dir | default('ltr') }}">
+<head>
+  <meta charset="{{ meta.charset | default('utf-8') }}">
+  <meta name="viewport" content="{{ meta.viewport | default('width=device-width, initial-scale=1.0') }}">
+  {% for url in stylesheets %}
+  <link rel="stylesheet" href="{{ url }}">
+  {% endfor %}
+  {% if css %}
+  <style>
+  {{ css | safe }}
+  </style>
+  {% endif %}
+  <title>{% block title %}{{ meta.title | default(component.label + ' Preview') }}{% endblock %}</title>
+</head>
+<body>
+  {% block content %}
+  {{ content | safe }}
+  {% endblock %}
+  {% for url in scripts %}
+  <script src="{{ url }}"></script>
+  {% endfor %}
+  {% if js %}
+  <script>
+  {{ js | safe }}
+  </script>
+  {% endif %}
+</body>
+</html>

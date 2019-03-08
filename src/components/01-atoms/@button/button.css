@@ -1,0 +1,31 @@
+.btn {
+  @apply
+  p-3
+  inline-block
+  no-underline
+  bg-grey-darkest
+  text-white;
+  -webkit-appearance: none;
+}
+
+.btn:hover {
+  @apply bg-black;
+}
+
+.btn--small {
+  @apply
+  p-2
+  text-sm;
+}
+
+.btn--primary {
+  @apply bg-blue;
+}
+
+.btn--primary:hover {
+  @apply bg-blue-dark;
+}
+
+.btn--block {
+  @apply block;
+}

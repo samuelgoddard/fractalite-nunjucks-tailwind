@@ -1,0 +1,146 @@
+#!/usr/bin/env node --no-warnings
+
+const { relative, resolve, dirname } = require('path');
+const mri = require('mri');
+const { cyan, dim, red } = require('kleur');
+const { Signale } = require('signale');
+const { stripIndent, source } = require('common-tags');
+const { loadConfig } = require('@frctl/fractalite-support');
+const { serveStatic } = require('@frctl/fractalite-app');
+const ip = require('ip');
+const fractalite = require('../.');
+const { assign } = Object;
+
+const logger = new Signale({
+  types: {
+    debug: {
+      badge: '✎',
+      color: 'gray'
+    }
+  }
+});
+
+const cwd = process.cwd();
+const args = mri(process.argv.slice(2));
+
+(async () => {
+  let loaded;
+
+  try {
+    loaded = await loadConfig({ cwd, path: args.config, name: 'fractal' });
+    const rootPath = dirname(loaded.path);
+    if (cwd !== rootPath) {
+      process.chdir(rootPath);
+    }
+    logger.info(`Using config file ${cyan(`./${relative(cwd, loaded.path)}`)}`);
+  } catch(err) {
+    if (err.type === 'CONFIG_NOT_FOUND') {
+      // TODO: run interactive config creator?
+      loaded = { config: {} };
+      logger.warn(`Config file not found. Continuing without config.`);
+    } else {
+      throw err;
+    }
+  }
+
+  try {
+    const command = args._[0] || 'start';
+    const { config } = loaded;
+
+    if (command === 'start') {
+
+      const mode = assign({ mode: 'develop' }, config.develop || {}, args);
+      const app = fractalite({ mode, ...config });
+
+      const interactiveLogger = new Signale({interactive: true});
+
+      app.on('error', function onError(err) {
+        if (err.message.indexOf('ECONNRESET') >= 0) {
+          return;
+        }
+        if (err.status === 404) {
+          interactiveLogger.warn(`${err.message} ${dim(`[${err.path}]`)}`);
+        } else {
+          interactiveLogger.error(err);
+        }
+      });
+
+      app.on('state.pending', () => interactiveLogger.await(`Updating state`));
+      app.on('state.updated', (state, info) => {
+        interactiveLogger.complete(`Updated in %d.%ds`, info.time[0], Math.round(info.time[1] / 1000000))
+      });
+
+      const server = await app.run();
+      const port = server.address().port;
+
+      serverStarted({
+        server,
+        startedMessage: `Fractalite server started`,
+        stoppedMessage: `Fractalite server stopped`
+      });
+
+    } else if (command === 'build') {
+
+      const mode = assign({ mode: 'build' }, config.build || {}, args);
+      const app = fractalite({ mode, ...config });
+
+      const interactiveLogger = new Signale({interactive: true});
+
+      app.on('build.start', () => {
+        interactiveLogger.await(`Building static export...`);
+      });
+
+      app.on('build.end', results => {
+        interactiveLogger.success(`Fractalite static build complete. ${results.length} files generated.`);
+      });
+
+      await app.run();
+
+      if (mode.serve) {
+        const server = await serveStatic(mode.dest, mode.port);
+        serverStarted({
+          server,
+          startedMessage: `Serving static build`,
+          stoppedMessage: `Fractalite static build server stopped`
+        });
+      }
+
+    } else if (command === 'serve') {
+
+      const opts = assign(config.build || {}, args);
+      const server = await serveStatic(opts.dest, opts.port);
+
+      serverStarted({ server });
+
+    } else {
+      throw new Error(`Command '${command}' not recognised`);
+    }
+
+  } catch(err) {
+    logger.error(err);
+    process.exit(1);
+  }
+
+  function serverStarted({ server, startedMessage, stoppedMessage }){
+    const port = server.address().port;
+
+    logger.success(startedMessage || 'Server started');
+    logger.log('');
+    logger.log(stripIndent`
+      ---
+      Local:   ${cyan(`http://localhost:${port}`)}
+      Network: ${cyan(`http://${ip.address()}:${port}`)}
+      ---
+      ${dim(`Use ^C to stop`)}
+    `);
+    logger.log('');
+
+    process.on('SIGINT', () => {
+      server.close();
+      logger.log('');
+      logger.info(stoppedMessage || 'Server stopped');
+      process.exit(0);
+    });
+  }
+
+})();

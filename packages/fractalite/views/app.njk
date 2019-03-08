@@ -1,0 +1,37 @@
+{% extends "layout" %}
+
+{% block body %}
+<error v-if="$store.state.error" :error="$store.state.error"></error>
+{# <loader v-if="loading"></loader> #}
+<div class="fr-app__container" v-if="$store.state.initialised" :class="{ 'is-ready': $store.state.initialised }">
+  <div class="fr-app__sidebar" v-on:keyup.escape="resetSearch()">
+    <header class="fr-app__brand">
+      {% include "partials/brand" %}
+    </header>
+    <div class="fr-app__sidebar-main">
+      <div class="fr-app__search" id="app-search">
+        <search ref="search" :components="searchTargets"></search>
+      </div>
+      <div class="fr-app__navigation" id="app-navigation">
+        <navigation ref="navigation" :items="navItems"></navigation>
+      </div>
+    </div>
+    <footer class="fr-app__controls fr-controls"></footer>
+  </div>
+  <main class="fr-app__main">
+    <router-view></router-view>
+  </main>
+</div>
+{% endblock %}
+
+{% block preScripts %}
+<script>
+  window.frctl = window.frctl || {};
+  window.frctl.mode = {{ mode | dump | safe }};
+</script>
+{% for template in ['navigation', 'preview', 'inspector', 'page', 'error', 'search', 'loader'] %}
+<script type="text/x-template" id="{{ template }}">
+{% includeraw "components/" + template + '.vue' %}
+</script>
+{% endfor %}
+{% endblock %}

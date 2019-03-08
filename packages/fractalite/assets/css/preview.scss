@@ -1,0 +1,39 @@
+.fr-preview {
+  display: flex;
+  background-color: var(--preview-bg-color);
+
+  &__wrapper {
+    height: 100%;
+    position: relative;
+  }
+
+  &__stats {
+    background: var(--bg-color-light-shade);
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: inline-block;
+    font-family: var(--font-family--code);
+    font-size: 14px;
+    padding: 3px 4px;
+  }
+
+  &__spacer {
+    background: var(--bg-color-light-shade);
+  }
+
+  &__window {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .gutter.gutter-horizontal {
+    background-color: var(--preview-resizer-bg-color);
+  }
+}

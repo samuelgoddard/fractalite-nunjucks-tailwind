@@ -1,0 +1,32 @@
+.fr-tabs {
+  background-color: var(--tabs-bg-color);
+  display: flex;
+  width: 100%;
+  border-bottom: 1px solid var(--divider-color);
+  align-items: stretch;
+  user-select: none;
+
+  &__tab {
+    flex: 1;
+  }
+
+  &__tab a {
+    color: var(--text-color);
+    display: block;
+    font-size: 14px;
+    padding: 2px 0 10px 0;
+    text-align: center;
+    text-decoration: none;
+    margin-bottom: -1px;
+    position: relative;
+  }
+
+  &__tab:hover a {
+    border-bottom: 2px solid var(--tabs-highlight-color--hover);
+  }
+
+  &__tab.is-current a {
+    font-weight: bold;
+    border-bottom: 2px solid var(--tabs-highlight-color--active);
+  }
+}
