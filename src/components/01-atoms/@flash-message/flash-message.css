@@ -1,0 +1,57 @@
+.flash-message {
+  padding: spacing(9 15 9 15);
+  background: palette(primary);
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  text-align: left;
+  font-size: ms(0, $thread: desktop);
+  line-height: 1.3;
+  font-weight: bold;
+  width: 100%;
+
+  @apply
+  py-3
+  px-5
+  bg-blue
+  text-white
+  fixed
+  pin-t
+  pin-l
+  pin-r
+  text-left
+  font-bold
+  w-full;
+
+  & > a {
+      @apply text-white underline;
+  }
+}
+
+/* .flash-message__inner {
+  display: flex;
+  align-items: center;
+}
+
+// Position and recolour the default close atom
+.flash-message__close {
+  background: none;
+  margin-left: auto;
+  position: relative;
+}
+
+// Success modifier
+.flash-message--success {
+  background: palette(success);
+}
+
+// Warning modifier
+.flash-message--warning {
+  background: palette(warning);
+}
+
+// Error modifier
+.flash-message--danger {
+  background: palette(danger);
+} */

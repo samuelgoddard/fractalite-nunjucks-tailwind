@@ -1,0 +1,7 @@
+.figure {
+  @apply inline-block p-0;
+}
+
+.figure__image {
+  @apply block mb-2 max-w-full;
+}

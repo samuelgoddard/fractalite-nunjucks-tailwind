@@ -1,0 +1,41 @@
+.chevron {
+  &:before {
+    content: ' ' ;
+    /* @TODO use Tailwind plugin for this... */
+    transform: rotate(45deg);
+
+    @apply
+    inline-block
+    relative
+    border-t-2 border-r-2 border-black
+
+    h-2 w-2;
+  }
+}
+
+.chevron--up {
+  &:before {
+    /* @TODO use Tailwind plugin for this... */
+    transform: rotate(-45deg);
+  }
+}
+
+.chevron--left {
+  &:before {
+    /* @TODO use Tailwind plugin for this... */
+    transform: rotate(-135deg);
+  }
+}
+
+.chevron--down {
+  &:before {
+    /* @TODO use Tailwind plugin for this... */
+    transform: rotate(135deg);
+  }
+}
+
+.chevron--highlight {
+  &:before {
+    @apply border-blue;
+  }
+}
