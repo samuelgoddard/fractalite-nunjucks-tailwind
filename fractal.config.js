@@ -19,9 +19,18 @@ module.exports = {
 
   preview: {
     wrap(html, { scenario, component }) {
-      return `<div class="font-mono">
+      if (scenario.config.darkMode == true) {
+        var backgroundClass = 'bg-black';
+        var foregroundClass = 'text-white';
+      }
+      if (scenario.config.noPad == true) {
+        var padClass = 'p-0';
+      } else {
+        var padClass = 'p-6';
+      }
+      return `<div class="font-mono ${ padClass } ${ backgroundClass }">
         <div class="border-b border-grey-light pb-3 mb-3">
-          <span class="text-lg">${component.label} / ${scenario.label}</span>
+          <span class="text-lg ${ foregroundClass }">${component.label} / ${scenario.label}</span>
         </div>
         ${html}
       </div>`;
